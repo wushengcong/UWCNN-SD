@@ -1,6 +1,12 @@
 clc,close all,clear all;
 
 inputImgPath = '../Inputs';                 % input image path
+if ~exist('HF','dir')
+    mkdir('HF')
+end
+if ~exist('LF','dir')
+    mkdir('LF')
+end
 imgFiles = imdir(inputImgPath);
 for indImg = 1:length(imgFiles)    
     % read image
