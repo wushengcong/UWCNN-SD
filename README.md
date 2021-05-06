@@ -3,8 +3,11 @@ The trained model of the paper [S. Wu, T. Luo, G. Jiang, M. Yu, H. Xu, Z. Zhu an
 ## Usage
 ### Requirements
 python = 3.6
+
 tensorflow =1.9.0
+
 numpy = 1.14.3
+
 opencv-python = 3.4.1.15
 ### Testing
 1. Clone the repo
