@@ -8,7 +8,9 @@ tensorflow =1.9.0
 
 numpy = 1.14.3
 
-opencv-python = 3.4.1.15
+cv2
+
+matlab
 ### Testing
 1. Clone the repo
 2. Put the test underwater images into the "Inputs" folder
