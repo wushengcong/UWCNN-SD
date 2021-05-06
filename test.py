@@ -25,11 +25,6 @@ def main():
         model = UWCNN(sess)
         init_op = tf.global_variables_initializer()
         sess.run(init_op)
-        hf_images = tf.placeholder(tf.float32, [1, 256, 256, 3], name='hf_image')
-        lf_images = tf.placeholder(tf.float32, [1, 256, 256, 3], name='lf_image')
-
-        output = model.CNNnet(hf_images, lf_images, reuse=True, name='CNNnet')
-
         checkpoint = "checkpoint/" + FLAGS.checkpoint_dir + "/UWCNN.model-" + str(FLAGS.epoch-1)
         saver = tf.train.import_meta_graph(checkpoint + ".meta")
 
@@ -42,9 +37,14 @@ def main():
             test_image_name, _ = os.path.splitext(os.path.basename(img_hf))
             hf_img = cv_norm(cv2.imread(img_hf))
             lf_img = cv_norm(cv2.imread(img_lf))
+            shape_x, shape_y, shape_z = hf_img.shape
 
-            hf_img = np.array(hf_img).reshape(1, 256, 256, 3)
-            lf_img = np.array(lf_img).reshape(1, 256, 256, 3)
+            hf_images = tf.placeholder(tf.float32, [1, shape_x, shape_y, shape_z], name='hf_image')
+            lf_images = tf.placeholder(tf.float32, [1, shape_x, shape_y, shape_z], name='lf_image')
+            output = model.CNNnet(hf_images, lf_images, reuse=True, name='CNNnet')
+
+            hf_img = np.array(hf_img).reshape(1, shape_x, shape_y, shape_z)
+            lf_img = np.array(lf_img).reshape(1, shape_x, shape_y, shape_z)
 
             output_img= sess.run(output, feed_dict={hf_images: hf_img, lf_images: lf_img})
             output_img = output_img.squeeze()

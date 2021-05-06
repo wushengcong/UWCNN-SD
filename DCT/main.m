@@ -13,8 +13,11 @@ for indImg = 1:length(imgFiles)
     imgPath = fullfile(inputImgPath, imgFiles(indImg).name);
     img.RGB = im2double(imread(imgPath));
     img.name = imgPath((strfind(imgPath,'Inputs')+7):end);
-    for i = 1:3
-        Orig = img.RGB(:,:,i);
+    [s1,s2,s3] = size(img.RGB);
+    High = zeros(s1,s2,s3);
+    Low = zeros(s1,s2,s3);
+    for i = 1:3       
+        Orig = img.RGB(:,:,i);       
         % Transform
         Orig_T = dct2(Orig);
         % Split between high- and low-frequency in the spectrum (*)
@@ -25,6 +28,7 @@ for indImg = 1:length(imgFiles)
         High(:,:,i) = idct2(High_T);
         Low(:,:,i) = idct2(Low_T);
     end
+
     HFPath = fullfile('HF', strcat(img.name(1:end-4), '.png'));  
     imwrite(High,HFPath);
     LFPath = fullfile('LF', strcat(img.name(1:end-4), '.png')); 
